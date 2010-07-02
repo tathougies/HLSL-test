@@ -23,21 +23,25 @@
 #include "hlsl.h"
 
 static struct sample_probe probes[] = {
-	{SAMPLE_PROBE_RGB, 15, D3DCOLOR_XRGB(0, 255, 0)},
-	{SAMPLE_PROBE_RGB, 25, D3DCOLOR_XRGB(0, 0, 255)},
+	{SAMPLE_PROBE_RGB, 0, D3DCOLOR_XRGB(0, 255, 255)}
 };
 
-struct pixel_shader_test_probe if_greater_test =
+CONSTANT_TABLE_BEGIN(table);
+FLOAT4("color", 1, 0, 0, 1);
+CONSTANT_TABLE_END();
+
+struct pixel_shader_test_probe swizzle_test1 =
 {
-	{PIXEL_SHADER_TEST_PROBE, "if_greater",
-	 "uniform float samples;\n"
-	 "float4 test(float2 pos: VPOS): COLOR\n"
+	{PIXEL_SHADER_TEST_PROBE, "swizzle_test1",
+	 "uniform float4 color;\n" /* Once again this is to prevent compiler optimization. For tests with optimization, look in optimizations.c */
+	 "float4 test(): COLOR\n"
 	 "{\n"
-	 "  if(pos.x > 20.0)\n"
-	 "     return float4(0, 0, 1, 0);\n"
-	 "  else\n"
-	 "     return float4(0, 1, 0, 0);\n"
+	 "  float4 ret = color;\n"
+	 "  ret.gb = ret.ra;\n"
+	 "  ret.ra = float2(0, 0);\n"
+	 "  return ret;\n"
 	 "}\n",
-	 "ps_3_0", 0, NULL},
-	32, 2, probes
+	 "ps_3_0", 0, constants
+	},
+	1, 1, probes
 };

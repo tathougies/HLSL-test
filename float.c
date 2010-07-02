@@ -30,8 +30,8 @@ static struct sample_probe probes1[] = {
 
 struct pixel_shader_test_probe vec4_indexing_test1 =
 {
-	{PIXEL_SHADER_TEST_PROBE, "vec4_indexing_test1",
-	 "float4 test(): COLOR\n"
+	{PIXEL_SHADER_TEST_PROBE, "vec4_indexing_test1", /* shader type and name */
+	 "float4 test(): COLOR\n" /* Shader code */
 	 "{\n"
 	 "  float4 color;\n"
 	 "  color[0] = 0.0;\n"
@@ -40,25 +40,27 @@ struct pixel_shader_test_probe vec4_indexing_test1 =
 	 "  color[3] = 1.0;\n"
 	 "  return color;\n"
 	 "}\n",
-	 "ps_3_0", 0, },
-	32, 3, probes1
+	 "ps_3_0", /* Shader profile */
+	 0, /* Flags (currently unused ) */
+	 NULL /* This shader needs no constants */
+	},
+	32, /* Number of pixels to draw (remember this is all in the x direction) */
+	3, probes1 /* Number of probes and probe table */
 };
 
 static struct sample_probe probes2[] = {
 	{SAMPLE_PROBE_RGBA, 10, D3DCOLOR_ARGB(255, 0, 255, 0)},
 	{SAMPLE_PROBE_RGBA, 16, D3DCOLOR_ARGB(255, 0, 255, 0)},
-	{SAMPLE_PROBE_RGBA, 22, D3DCOLOR_ARGB(255, 0, 255, 0)}, 
+	{SAMPLE_PROBE_RGBA, 22, D3DCOLOR_ARGB(255, 0, 255, 0)}
 };
 
-struct constant_table table2[] =
-{
-	INT_CONSTANT("i", 2),
-	{NULL, 0, 0}
-};
+CONSTANT_TABLE_BEGIN(table2);
+INT("i", 2)
+CONSTANT_TABLE_END();
 
 struct pixel_shader_test_probe vec4_indexing_test2 =
 {
-	{PIXEL_SHADER_TEST_PROBE, "vec4_indexing_test2",
+	{PIXEL_SHADER_TEST_PROBE, "vec4_indexing_test2", /* Type and name */
 	 "uniform int i;\n" /* We have this uniform here so the compiler can't optimize */
 	 "float4 test(): COLOR\n"
 	 "{\n"
@@ -67,7 +69,10 @@ struct pixel_shader_test_probe vec4_indexing_test2 =
 	 "  color.b = 0;\n"
 	 "  return color;\n"
 	 "}\n",
-	 "ps_3_0", 0, table2},
-	32, 3, probes2
+	 "ps_3_0", /* Shader profile we want to use */
+	 0, /* Flags (currently unused) */
+	 table2}, /* Constant table */
+	32, /* Number of samples to draw */
+	3, probes2 /* Number of probes and probe table */
 };
 

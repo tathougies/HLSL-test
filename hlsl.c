@@ -175,10 +175,12 @@ static void set_constant(LPD3DXCONSTANTTABLE constants, struct constant_table* c
 {
 	switch(constant->type) {
 	case CONSTANT_TYPE_INT:
-		constants->lpVtbl->SetInt(constants, device, constant->name, constant->i);
+		constants->lpVtbl->SetInt(constants, device, constant->name, (int)constant->value[0]);
 		break;
 	case CONSTANT_TYPE_FLOAT:
-		constants->lpVtbl->SetFloat(constants, device, constant->name, constant->f);
+		constants->lpVtbl->SetFloat(constants, device, constant->name, constant->value[0]);
+		break;
+	case CONSTANT_TYPE_FLOAT4:
 		break;
 	}
 }

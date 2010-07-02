@@ -26,16 +26,19 @@
 
 #define CONSTANT_TYPE_FLOAT            1
 #define CONSTANT_TYPE_INT              2
+#define CONSTANT_TYPE_FLOAT4           3
 
-#define INT_CONSTANT(name, value)   {name, CONSTANT_TYPE_INT, value, 0.0}
-#define FLOAT_CONSTANT(name, value) {name, CONSTANT_TYPE_FLOAT, 0, value}
+#define CONSTANT_TABLE_BEGIN(name) struct constant_table name[] = {
+#define INT(name, value)   {name, CONSTANT_TYPE_INT, {value, 0, 0, 0}},
+#define FLOAT(name, value) {name, CONSTANT_TYPE_FLOAT, {value, 0, 0, 0}},
+#define FLOAT4(name, v1, v2, v3, v4) {name, CONSTANT_TYPE_FLOAT4, {v1,v2,v3,v4}}poka
+#define CONSTANT_TABLE_END() {NULL, 0, 0} }
 
 struct constant_table
 {
   char* name;
   int type;
-  int i;
-  float f;
+  float value[4];
 };
 
 struct pixel_shader_test
