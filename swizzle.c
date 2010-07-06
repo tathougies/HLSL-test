@@ -26,14 +26,14 @@ static struct sample_probe probes[] = {
 	{SAMPLE_PROBE_RGB, 0, D3DCOLOR_XRGB(0, 255, 255)}
 };
 
-CONSTANT_TABLE_BEGIN(table);
-FLOAT4("color", 1, 0, 0, 1);
-CONSTANT_TABLE_END();
+CONSTANT_TABLE_BEGIN(constants)
+FLOAT4("color", 1, 0, 0, 1)
+CONSTANT_TABLE_END()
 
 struct pixel_shader_test_probe swizzle_test1 =
 {
-	{PIXEL_SHADER_TEST_PROBE, "swizzle_test1",
-	 "uniform float4 color;\n" /* Once again this is to prevent compiler optimization. For tests with optimization, look in optimizations.c */
+	{PIXEL_SHADER_TEST_PROBE, "swizzle_test1", /* Test type and name */
+	 "uniform float4 color;\n" /* Once again this is to prevent compiler optimization. */
 	 "float4 test(): COLOR\n"
 	 "{\n"
 	 "  float4 ret = color;\n"
@@ -41,7 +41,7 @@ struct pixel_shader_test_probe swizzle_test1 =
 	 "  ret.ra = float2(0, 0);\n"
 	 "  return ret;\n"
 	 "}\n",
-	 "ps_3_0", 0, constants
+	 "ps_3_0", 0, constants /* Version, flags (unused), and constant table */
 	},
-	1, 1, probes
+	1, 1, probes /* Samples to take, Number of probes, and probe table */
 };

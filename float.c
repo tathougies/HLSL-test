@@ -49,14 +49,14 @@ struct pixel_shader_test_probe vec4_indexing_test1 =
 };
 
 static struct sample_probe probes2[] = {
-	{SAMPLE_PROBE_RGBA, 10, D3DCOLOR_ARGB(255, 0, 255, 0)},
+	{SAMPLE_PROBE_RGBA, 10, D3DCOLOR_ARGB(255, 0, 255, 0)}, 
 	{SAMPLE_PROBE_RGBA, 16, D3DCOLOR_ARGB(255, 0, 255, 0)},
 	{SAMPLE_PROBE_RGBA, 22, D3DCOLOR_ARGB(255, 0, 255, 0)}
 };
 
-CONSTANT_TABLE_BEGIN(table2);
-INT("i", 2)
-CONSTANT_TABLE_END();
+CONSTANT_TABLE_BEGIN(table2)
+INT("i", 2) 
+CONSTANT_TABLE_END()
 
 struct pixel_shader_test_probe vec4_indexing_test2 =
 {
